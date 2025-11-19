@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
-@import "tw-animate-css";
+/* Removed missing import of "tw-animate-css" which isn't installed in package.json.
+  If you intended to use an external CSS animation library, either install it
+  (e.g. `npm install tw-animate-css`) or replace this import with the correct
+  package. The `tailwindcss-animate` plugin (already in dependencies) provides
+  Tailwind animation utilities and likely covers your needs. */
 
 @custom-variant dark (&:is(.dark *));
 
