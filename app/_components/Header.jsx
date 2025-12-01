@@ -27,7 +27,9 @@ function Header() {
             <li className='hover:text-primary cursor-pointer hover:scale-105 transition-all ease-in-out'>{item.name}</li>
             </Link>
           ))}
-          <Button>Free Hair Analysis</Button>
+            <Link href='/getaqueque'>
+            <Button className='bg-primary hover:bg-primary/80 text-white'>Get A Queue</Button>            
+            </Link>
 
     </div>
     </div>
