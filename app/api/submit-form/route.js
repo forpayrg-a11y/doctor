@@ -1,33 +1,49 @@
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+// app/api/submit-form/route.js
+import dbConnect from '@/lib/dbConnect';
+import FormSubmission from '@/models/FormSubmission';
 
-const prisma =new PrismaClient();
+export async function POST(request) {
+  try {
+    await dbConnect();
+    const data = await request.json();
 
+    // Extract form data
+    const formData = {
+      formId: data.formId, // Make sure to include formId in your form submission
+      email: data.email,
+      formData: {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        ...data // Include all other form fields
+      }
+    };
 
-export async function POST(req) {
-    try {
-        const data=await req.json();
+    // Check if submission exists and update or create
+    const submission = await FormSubmission.findOneAndUpdate(
+      { formId: formData.formId, email: formData.email },
+      formData,
+      { new: true, upsert: true, runValidators: true }
+    );
 
-        const saved =await prisma.hairTransplantForm.create({
-            data:{
-                firstName:data.firstName,
-                lastName:data.lastName,
-                email:data.email,
-                contact:data.contact,
-                gender:data.gender,
-                transplantType:data.subject, // Changed from data.transplantType to data.subject
-                photos:data.photos ?? null,
-            },
-
-        });
-        return NextResponse.json({ success: true, saved });
-
-    } catch (error) {
-        console.error("Database error:", error);
-        return NextResponse.json({
-            error: 'Database error',
-            details: error.message
-        }, {status:500});
-        
-    }
+    return new Response(JSON.stringify({
+      success: true,
+      data: submission
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error.message || "Failed to process form submission"
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
 }

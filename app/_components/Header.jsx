@@ -28,7 +28,9 @@ function Header() {
             </Link>
           ))}
             <Link href='/getaqueque'>
-            <Button className='bg-primary hover:bg-primary/80 text-white'>Get A Queue</Button>            
+           <Button className="bg-green-500 hover:bg-green-600 text-white">
+              Get A Queue
+            </Button>
             </Link>
 
     </div>

@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "plugins": [{ "name": "next" }],
-    "baseUrl": ".",      //  önemli
+    "baseUrl": ".",      
     "paths": {
       "@/*": ["./*"]     //  import @/
     }
